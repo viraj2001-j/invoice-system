@@ -5,7 +5,7 @@ import SignatureCanvas from 'react-signature-canvas'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { PenTool, Trash2, CheckCircle, Save } from "lucide-react"
-import { updateAdminSignature } from "@/app/api/invoice/signature/addsignature/route"
+import { updateAdminSignature } from "@/app/action/invoice-addsignatu"
 import { toast } from "sonner"
 
 interface Props {

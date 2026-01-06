@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { getInvoices } from "@/app/api/invoice/view/route";
+import { getInvoices } from "@/app/action/invoice-view";
 import InvoiceDashboardUI from "./InvoiceDashboardUI";
 import Sidebar from "@/components/sidebar"; // Ensure path is correct
 

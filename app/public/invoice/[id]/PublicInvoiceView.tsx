@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, CheckCircle2, PenTool, Badge } from "lucide-react"
 import { generateInvoicePDF } from "@/lib/PDFgenerator"
-import { submitSignature } from "@/app/api/invoice/signature/route"
+import { submitSignature } from "@/app/action/invoice-signature"
 
 export default function PublicInvoiceView({ invoice }: any) {
   const sigCanvas = useRef<SignatureCanvas>(null);

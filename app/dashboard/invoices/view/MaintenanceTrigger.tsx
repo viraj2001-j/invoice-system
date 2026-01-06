@@ -1,4 +1,4 @@
-import { checkAndSetOverdueInvoices } from "@/app/api/statusUpdate/route";
+import { checkAndSetOverdueInvoices } from "@/app/action/invoice-statusupdate";
 
 export default async function MaintenanceTrigger() {
   // This runs on the server every time the page is rendered

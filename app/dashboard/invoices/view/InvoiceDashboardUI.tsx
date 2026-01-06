@@ -10,7 +10,7 @@ import {
   Copy
 } from "lucide-react"
 
-import { updateInvoiceStatus, deleteInvoice } from "@/app/api/invoice/view/route" 
+import { updateInvoiceStatus, deleteInvoice } from "@/app/action/invoice-view" 
 import StatsSummary from "./StatsSummary"
 import SearchFilters from "./SearchFilters"
 import { useInvoiceFilter } from "./InvoiceFilterEngine"
@@ -34,7 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { sendInvoiceEmail } from '@/app/api/invoice/sendemail/route'
+import { sendInvoiceEmail } from '@/app/action/invoice-sendemail'
 import { toast } from 'sonner'
 
 export default function InvoiceDashboardUI({ initialInvoices, userRole, stats }: any) {

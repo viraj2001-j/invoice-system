@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { RefreshCcw } from "lucide-react"
-import { syncExistingInvoices } from "@/app/api/test/route"
+import { syncExistingInvoices } from "@/app/action/test/test"
 
 export default function RepairSignatures() {
   const [loading, setLoading] = useState(false);

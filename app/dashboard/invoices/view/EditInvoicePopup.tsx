@@ -23,7 +23,7 @@ import {
   Save, Plus, Trash2, Building2, User, 
   FileText, CreditCard, Layout, Percent 
 } from "lucide-react"
-import { updateFullInvoiceAction } from "@/app/api/invoice/view/edit/route"
+import { updateFullInvoiceAction } from "@/app/action/invoice-viewedit"
 import { getCategories } from "@/app/action/invoice-actions" 
 import { toast } from "sonner"
 
