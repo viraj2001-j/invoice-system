@@ -32,6 +32,8 @@ export const authOptions: NextAuthOptions = {
 
         if (!isValid) return null
 
+
+        console.log(user)
         return {
           id: user.id.toString(),
           username: user.username,
