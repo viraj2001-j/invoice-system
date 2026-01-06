@@ -5,17 +5,24 @@ import MaintenanceTrigger from "@/app/dashboard/invoices/view/MaintenanceTrigger
 
 export default async function DashboardRedirect() {
 
+  
   // ⚡ This runs on EVERY page change within the dashboard
   await MaintenanceTrigger();
 
   const session = await getServerSession(authOptions)
 
   console.log("Session:", session)
-  if (!session?.user.name) redirect("/login")
+  // if (!session?.user.name) redirect("/login")
 
-  if (session.user.role === "SUPERADMIN") {
+  if (session?.user.role === "SUPERADMIN") {
     redirect("/superadmin")
   }
+  if (session?.user.role === "ADMIN") {
 
   redirect("/admin")
+}
+else{
+  redirect("/login")
+
+}
 }
