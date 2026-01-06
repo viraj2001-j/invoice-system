@@ -10,7 +10,8 @@ export default async function DashboardRedirect() {
 
   const session = await getServerSession(authOptions)
 
-  if (!session) redirect("/login")
+  console.log("Session:", session)
+  if (!session?.user.name) redirect("/login")
 
   if (session.user.role === "SUPERADMIN") {
     redirect("/superadmin")
