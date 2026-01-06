@@ -24,7 +24,7 @@ import {
   FileText, CreditCard, Layout, Percent 
 } from "lucide-react"
 import { updateFullInvoiceAction } from "@/app/api/invoice/view/edit/route"
-import { getCategories } from "@/app/api/invoice/route" 
+import { getCategories } from "@/app/action/invoice-actions" 
 import { toast } from "sonner"
 
 export default function EditInvoicePopup({ invoice, isOpen, onClose }: any) {

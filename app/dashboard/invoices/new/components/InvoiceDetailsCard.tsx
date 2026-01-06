@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { saveNewCategory, getCategories, deleteCategory } from "@/app/api/invoice/route"
+import { saveNewCategory, getCategories, deleteCategory } from "@/app/action/invoice-actions"
 
 interface DetailsProps {
   data: {

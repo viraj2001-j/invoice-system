@@ -15,7 +15,7 @@ import SummaryCard from "./components/SummaryCard"
 import NotesTermsCard from "./components/NotesTermsCard"
 
 // Master Action
-import { createFullInvoice } from "@/app/api/invoice/route"
+import { createFullInvoice } from "@/app/action/invoice-actions"
 
 import { toast } from "sonner"
 
