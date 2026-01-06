@@ -23,7 +23,6 @@ export async function updateAdminSignature(signatureBase64: string) {
     return { success: true }
   } catch (error) {
     console.error("Update Signature Error:", error)
-    console.error("Update Signature Error:", error)
     return { success: false, error: "Failed to update signature" }
   }
 }
