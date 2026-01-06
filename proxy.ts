@@ -1,13 +1,13 @@
+// proxy.ts
 import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export async function proxy(req: NextRequest) {
-  const path = req.nextUrl.pathname
+  const { pathname, origin } = req.nextUrl
 
   // 1. PUBLIC ROUTE EXCEPTION
-  // Allow anyone to access the public invoice signature page
-  if (path.startsWith('/public')) {
+  if (pathname.startsWith('/public')) {
     return NextResponse.next()
   }
 
@@ -19,32 +19,32 @@ export async function proxy(req: NextRequest) {
 
   // 3. REDIRECT TO LOGIN IF NO TOKEN
   if (!token) {
-    return NextResponse.redirect(new URL("/login", req.url))
+    // 🟢 Using origin ensures the redirect is absolute and clean
+    return NextResponse.redirect(`${origin}/login`)
   }
 
   // 4. SUPERADMIN PROTECTION
-  if (path.startsWith("/superadmin") && token.role !== "SUPERADMIN") {
-    return NextResponse.redirect(new URL("/dashboard", req.url))
+  if (pathname.startsWith("/superadmin") && token.role !== "SUPERADMIN") {
+    return NextResponse.redirect(`${origin}/dashboard`)
   }
 
-  // 5. ADMIN/DASHBOARD PROTECTION
-  if (path.startsWith("/admin")) {
+  // 5. ADMIN PROTECTION
+  if (pathname.startsWith("/admin")) {
     const isAuthorized = token.role === "ADMIN" || token.role === "SUPERADMIN"
     if (!isAuthorized) {
-      return NextResponse.redirect(new URL("/dashboard", req.url))
+      return NextResponse.redirect(`${origin}/dashboard`)
     }
   }
 
   return NextResponse.next()
 }
 
-// 6. MATCHER CONFIGURATION
-// Ensure this covers your protected routes but allows the /public paths
 export const config = {
   matcher: [
     "/admin/:path*", 
     "/superadmin/:path*", 
     "/dashboard/:path*",
-    "/public/:path*" // Include this so the middleware can process the "exception" logic
+    // "/public/:path*" // 🟢 Note: You can actually remove this from matcher if 
+                        // you want to skip proxy execution for public routes entirely
   ],
 }
