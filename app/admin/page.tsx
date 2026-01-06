@@ -383,6 +383,7 @@ export default function DashboardPage() {
                     <div className="text-right">
                       <p className="font-semibold text-gray-900">LKR {client.revenue.toLocaleString()}</p>
                     </div>
+                    hhhiiji
                   </div>
                 ))
               ) : (
