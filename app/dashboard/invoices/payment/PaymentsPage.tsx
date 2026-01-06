@@ -11,7 +11,7 @@ import { toast } from "sonner"
 import { Search, CheckCircle2, Trash2, Edit3, Mail, Landmark, Download } from "lucide-react"
 
 import { shareReceipt, shareStatement } from "@/lib/receiptGenerator";
-import { recordPaymentAction, deletePaymentAction, updatePaymentAction } from "@/app/api/invoice/payment/route"
+import { recordPaymentAction, deletePaymentAction, updatePaymentAction } from "@/app/action/invoice-payment"
 import Sidebar from '@/components/sidebar'
 
 export default function PaymentsPage({ invoices = [] }: { invoices: any[] }) {
