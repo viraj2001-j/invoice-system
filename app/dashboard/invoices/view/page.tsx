@@ -33,7 +33,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-screen bg-slate-50">
       {/* 🟢 Sidebar handles its own sticky/fixed state */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* 🟢 Main Content Area - flex-1 makes it take all remaining space */}
       <main className="flex-1 overflow-x-hidden">

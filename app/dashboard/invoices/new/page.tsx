@@ -23,7 +23,7 @@ export default async function Page() {
 return (
     <div className="flex min-h-screen bg-slate-50 overflow-hidden">
       {/* 🟢 Sidebar sits fixed/sticky on the left */}
-      <Sidebar />
+      {/* <Sidebar /> */}
       
       {/* 🟢 Main scrolling area for the form */}
       <main className="flex-1 h-screen overflow-y-auto scroll-smooth">
