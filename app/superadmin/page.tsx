@@ -86,6 +86,8 @@ const StatCard = ({
   };
 
   return (
+
+    
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between">
         <div className="flex-1">

@@ -36,7 +36,7 @@ const menu: MenuItem[] = [
   { label: "Reports & Analytics", href: "/dashboard/invoices/reports", icon: <BarChart3 size={20} />},
   { label: "Admin Settings", href: "/superadmin/settings", icon: <Settings size={20} />,superAdminOnly: true },
   { label: "Signature", href: "/dashboard/invoices/addsignature", icon: <Settings size={20} />,superAdminOnly: true},
-   { label: "Payment(CURD)", href: "/dashboard/invoices/payment", icon: <Settings size={20} /> },
+   { label: "Payment(CRUD)", href: "/dashboard/invoices/payment", icon: <Settings size={20} /> },
      { label: "Send Message", href: "/settings", icon: <Settings size={20} /> },
    
 ]

@@ -7,7 +7,7 @@ import Sidebar from "@/components/sidebar"
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions)
-  if (!session) redirect("/login")
+  if (!session || session.user.role !== "SUPERADMIN") redirect("/login")
 
   const user = await prisma.user.findUnique({
     where: { id: parseInt(session.user.id) },

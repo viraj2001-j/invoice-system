@@ -1,28 +1,66 @@
+// app/dashboard/page.tsx
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+
+
 import { redirect } from "next/navigation"
-import MaintenanceTrigger from "@/app/dashboard/invoices/view/MaintenanceTrigger";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export default async function DashboardRedirect() {
+// --- TYPES & INTERFACES ---
+interface DashboardStats {
+  totalRevenue: number;
+  totalInvoices: number;
+  activeClients: number;
+  pendingAmount: number;
+  revenueGrowth: number;
+  invoiceGrowth: number;
+  clientGrowth: number;
+  overdueCount: number;
+}
 
-  
-  // ⚡ This runs on EVERY page change within the dashboard
-  await MaintenanceTrigger();
+interface InvoiceStatus {
+  name: string;
+  value: number;
+  color: string;
+  [key: string]: string | number; 
+}
 
+interface RevenueChartData {
+  month: string;
+  revenue: number;
+  invoices: number;
+}
+
+interface RecentInvoice {
+  id: string;
+  client: string;
+  amount: number;
+  status: string;
+  date: string;
+}
+
+interface TopClient {
+  name: string;
+  revenue: number;
+  invoices: number;
+}
+
+// 🟢 THIS IS THE ONE MISSING
+interface DashboardData {
+  stats: DashboardStats;
+  invoicesByStatus: InvoiceStatus[];
+  revenueChart: RevenueChartData[];
+  recentInvoices: RecentInvoice[];
+  topClients: TopClient[];
+}
+
+export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
 
-  console.log("Session:", session)
-  // if (!session?.user.name) redirect("/login")
+  if (!session) redirect("/login")
 
-  if (session?.user.role === "SUPERADMIN") {
-    redirect("/superadmin")
-  }
-  if (session?.user.role === "ADMIN") {
-
-  redirect("/admin")
-}
-else{
+  // ⚡ Final Dispatch Logic
+  if (session.user.role === "SUPERADMIN") redirect("/superadmin")
+  if (session.user.role === "ADMIN") redirect("/admin")
+  
   redirect("/login")
-
-}
 }

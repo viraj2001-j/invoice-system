@@ -31,3 +31,21 @@ declare module "next-auth/jwt" {
     role?: "ADMIN" | "SUPERADMIN"
   }
 }
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      role: Role
+    }
+  }
+
+  interface User {
+    role: Role
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: Role
+  }
+}
