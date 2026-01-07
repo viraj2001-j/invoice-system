@@ -1,125 +1,130 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-
-
-type Errors = {
-  username?: string
-  password?: string
-  role?: string
-  general?: string
-}
-
-type Issue = {
-  path: (string | number)[]
-  message: string
-}
+import { toast } from "sonner"
+import Sidebar from "@/components/sidebar" // 🟢 Import your Sidebar
+import { Loader2, UserPlus } from "lucide-react"
 
 export default function SignupPage() {
-  const [form, setForm] = useState({
-    username: "",
-    password: "",
-    role: "ADMIN" as "ADMIN" | "SUPERADMIN",
-  })
-
-  const [errors, setErrors] = useState<Errors>({})
-  const [loading, setLoading] = useState(false)
+  const { data: session, status } = useSession()
   const router = useRouter()
+  const [form, setForm] = useState({ username: "", password: "", role: "ADMIN" as any })
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
 
-
-  async function submit() {
-  setErrors({})
-  setLoading(true)
-
-  const res = await fetch("/api/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(form),
-  })
-
-  const data: { issues?: Issue[]; error?: string } = await res.json()
-
-  if (!res.ok) {
-    if (data.issues) {
-      const fieldErrors: Errors = {}
-
-      data.issues.forEach(issue => {
-        const field = issue.path[0]
-        if (field === "username" || field === "password" || field === "role") {
-          fieldErrors[field] = issue.message
-        }
-      })
-
-      setErrors(fieldErrors)
-    } else {
-      setErrors({ general: data.error ?? "Something went wrong" })
+  // 🛡️ 1. Automatic Redirect if not Super Admin
+  useEffect(() => {
+    if (status === "loading") return
+    if (status === "unauthenticated" || session?.user?.role !== "SUPERADMIN") {
+      router.push("/login")
     }
+  }, [status, session, router])
 
-    setLoading(false)
-    return
+  async function handleSubmit() {
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      }).then(r => r.json())
+      
+      if (res.error) {
+        setError(res.error)
+        setLoading(false)
+      } else {
+        toast.success("User Provisioned Successfully")
+        router.push("/dashboard")
+      }
+    } catch (err) {
+      setError("Network error occurred")
+      setLoading(false)
+    }
   }
 
-  alert("Signup successful! Please login.")
-  router.push("/login")
-  setLoading(false)
-}
-
+  if (status === "loading" || session?.user?.role !== "SUPERADMIN") {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-950">
+        <Loader2 className="text-red-600 animate-spin" size={40} />
+      </div>
+    )
+  }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-80 space-y-4">
-        {errors.general && (
-          <p className="text-sm text-red-500">{errors.general}</p>
-        )}
+    <div className="flex h-screen bg-slate-950">
+      {/* 🟢 Added Sidebar here */}
+      <Sidebar />
 
-        <div>
-          <Input
-            placeholder="Username"
-            value={form.username}
-            onChange={e => setForm({ ...form, username: e.target.value })}
-          />
-          {errors.username && (
-            <p className="text-sm text-red-500">{errors.username}</p>
+      {/* 🟢 Main Content Area */}
+      <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
+        <div className="w-full max-w-md space-y-6 bg-slate-900 p-10 rounded-[2.5rem] border border-white/10 shadow-2xl backdrop-blur-md">
+          <div className="text-center space-y-2">
+            <div className="bg-blue-600/10 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-600/20">
+              <UserPlus className="text-blue-400" size={30} />
+            </div>
+            <h2 className="text-2xl font-black uppercase italic text-white tracking-tighter">
+              Create User<span className="text-blue-600">.</span>
+            </h2>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Provision New Node Access</p>
+          </div>
+          
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-xl">
+              <p className="text-[10px] text-red-500 font-black uppercase italic text-center">{error}</p>
+            </div>
           )}
-        </div>
 
-        <div>
-          <Input
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={e => setForm({ ...form, password: e.target.value })}
-          />
-          {errors.password && (
-            <p className="text-sm text-red-500">{errors.password}</p>
-          )}
-        </div>
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Username</label>
+              <Input 
+                  placeholder="USERNAME" 
+                  onChange={e => setForm({...form, username: e.target.value})} 
+                  className="bg-slate-800 border-none h-12 rounded-xl text-white font-bold placeholder:text-slate-600"
+              />
+            </div>
 
-        <div>
-          <select
-            className="w-full border p-2 rounded"
-            value={form.role}
-            onChange={e =>
-              setForm({
-                ...form,
-                role: e.target.value as "ADMIN" | "SUPERADMIN",
-              })
-            }
-          >
-            <option value="ADMIN">Admin</option>
-            <option value="SUPERADMIN">Super Admin</option>
-          </select>
-          {errors.role && (
-            <p className="text-sm text-red-500">{errors.role}</p>
-          )}
-        </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Password</label>
+              <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  onChange={e => setForm({...form, password: e.target.value})} 
+                  className="bg-slate-800 border-none h-12 rounded-xl text-white font-bold placeholder:text-slate-600"
+              />
+            </div>
+            
+            <div className="space-y-1">
+              <label className="text-[10px] font-black uppercase text-slate-400 ml-1">Access Level</label>
+              <select 
+                  className="w-full bg-slate-800 p-3 rounded-xl text-xs font-black uppercase italic outline-none text-white border-none h-12 appearance-none"
+                  onChange={e => setForm({...form, role: e.target.value})}
+                  value={form.role}
+              >
+                <option value="ADMIN">ADMINISTRATOR</option>
+                <option value="SUPERADMIN">SUPER ADMIN</option>
+              </select>
+            </div>
 
-        <Button className="w-full" disabled={loading} onClick={submit}>
-          {loading ? "Creating..." : "Sign Up"}
-        </Button>
+            <Button 
+              className="w-full h-14 bg-white text-slate-950 font-black uppercase italic rounded-xl hover:bg-slate-200 transition-all active:scale-95 mt-4" 
+              onClick={handleSubmit} 
+              disabled={loading}
+            >
+              {loading ? <Loader2 className="animate-spin" size={20} /> : "PROVISION ACCESS"}
+            </Button>
+          </div>
+          
+          <p className="text-center text-[9px] font-bold text-slate-600 uppercase tracking-widest">
+            Security Protocol LUCIFER-01 Active
+          </p>
+        </div>
       </div>
     </div>
   )

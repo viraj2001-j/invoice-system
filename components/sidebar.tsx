@@ -36,7 +36,7 @@ const menu: MenuItem[] = [
   { label: "Reports & Analytics", href: "/dashboard/invoices/reports", icon: <BarChart3 size={20} />},
   { label: "Signature", href: "/dashboard/invoices/addsignature", icon: <Fingerprint size={20} />, superAdminOnly: true},
   { label: "Payment(CRUD)", href: "/dashboard/invoices/payment", icon: <CreditCard size={20} /> },
-  { label: "Admin Settings", href: "/superadmin/settings", icon: <ShieldCheck size={20} />, superAdminOnly: true },
+  { label: "Admin Settings", href: "/superadmin/createadmin", icon: <ShieldCheck size={20} />, superAdminOnly: true },
   { label: "Send Message", href: "/settings", icon: <MessageSquareShare size={20} /> },
 ]
 
@@ -132,7 +132,7 @@ export default function Sidebar() {
             className="flex items-center gap-3 w-full rounded-xl px-3 py-2.5 text-[10px] font-black uppercase italic text-red-400 hover:bg-red-600 hover:text-white transition-all"
           >
             <LogOut size={18} />
-            {!collapsed && <span>Terminate Session</span>}
+            {!collapsed && <span>Logout</span>}
           </button>
         </div>
       </aside>
