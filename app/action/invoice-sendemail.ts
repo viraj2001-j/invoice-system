@@ -26,7 +26,7 @@ export async function sendInvoiceEmail(invoiceId: number) {
     });
 
     // 3. Define Public Link
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://invoice-system-vrj.vercel.app";
     const shareLink = `${baseUrl}/public/invoice/${invoice.id}`;
 
     // 4. Send Email
