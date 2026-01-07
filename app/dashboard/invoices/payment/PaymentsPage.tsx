@@ -76,7 +76,7 @@ export default function PaymentsPage({ invoices = [] }: { invoices: any[] }) {
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
         <div className="p-8 space-y-8">
