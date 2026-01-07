@@ -17,7 +17,7 @@ export async function sendInvoiceEmail(invoiceId: number) {
     if (!invoice) return { success: false, error: "Invoice not found" };
 
     // 2. Fallback for the base URL to prevent broken links
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://invoice-system-vrj.vercel.app";
     const shareLink = `${baseUrl}/public/invoice/${invoice.id}`;
 
     await resend.emails.send({
