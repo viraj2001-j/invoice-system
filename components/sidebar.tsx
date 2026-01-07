@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react" // Added useMemo for performance
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
@@ -15,115 +15,94 @@ import {
   LogOut,
   Menu as MenuIcon,
   X,
+  Fingerprint, // Better for Signature
+  CreditCard,  // Better for Payment
+  ShieldCheck, // Better for Admin Settings
+  MessageSquareShare // Better for Send Message
 } from "lucide-react"
 
-// 🟢 1. Define types to avoid "any" errors
 type MenuItem = {
   label: string
   href: string
   icon: React.ReactNode
- superAdminOnly?: boolean // Visible only to SUPERADMIN
-  adminOnly?: boolean
+  superAdminOnly?: boolean
 }
 
-
-// 🟢 2. Define menu array outside the component
 const menu: MenuItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: <LayoutDashboard size={20} /> },
   { label: "Create Invoice", href: "/dashboard/invoices/new", icon: <FilePlus size={20} /> },
   { label: "View Invoices", href: "/dashboard/invoices/view", icon: <FileText size={20} /> },
-  { label: "Clients", href: "", icon: <Users size={20} /> },
+  { label: "Clients", href: "/dashboard/clients", icon: <Users size={20} /> },
   { label: "Reports & Analytics", href: "/dashboard/invoices/reports", icon: <BarChart3 size={20} />},
-  { label: "Admin Settings", href: "/superadmin/settings", icon: <Settings size={20} />,superAdminOnly: true },
-  { label: "Signature", href: "/dashboard/invoices/addsignature", icon: <Settings size={20} />,superAdminOnly: true},
-   { label: "Payment(CRUD)", href: "/dashboard/invoices/payment", icon: <Settings size={20} /> },
-     { label: "Send Message", href: "/settings", icon: <Settings size={20} /> },
-   
+  { label: "Signature", href: "/dashboard/invoices/addsignature", icon: <Fingerprint size={20} />, superAdminOnly: true},
+  { label: "Payment(CRUD)", href: "/dashboard/invoices/payment", icon: <CreditCard size={20} /> },
+  { label: "Admin Settings", href: "/superadmin/settings", icon: <ShieldCheck size={20} />, superAdminOnly: true },
+  { label: "Send Message", href: "/settings", icon: <MessageSquareShare size={20} /> },
 ]
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
-  
-  // 🟢 3. useSession now works because it's inside <SessionProvider> in layout.tsx
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
-  // 🟢 4. Dynamic User Data logic
-  const userName = (session?.user as any)?.username || session?.user?.name || "User"
+  const userName = useMemo(() => (session?.user as any)?.username || "User", [session])
   const userRole = (session?.user as any)?.role || "ADMIN"
   const isSuperAdmin = userRole === "SUPERADMIN"
 
   return (
     <>
-      {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-blue-950 text-white flex items-center justify-between p-4">
-        <span className="font-bold tracking-tight uppercase text-xs italic">
-        <span className="text-blue-400">.</span> {userRole}
+        <span className="font-bold tracking-tight uppercase text-[10px] italic">
+          <span className="text-blue-400">.</span> {userRole}
         </span>
-        <button onClick={() => setMobileOpen(true)}>
-          <MenuIcon />
-        </button>
+        <button onClick={() => setMobileOpen(true)} className="p-1"><MenuIcon /></button>
       </div>
 
-      {/* Overlay */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm"
-          onClick={() => setMobileOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
       )}
 
-      {/* Sidebar Container */}
       <aside
-        className={`fixed md:sticky top-0 left-0 z-50 h-screen bg-blue-900 text-white transition-all duration-300 flex flex-col
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen bg-blue-900 text-white transition-all duration-300 flex flex-col shadow-2xl
         ${collapsed ? "w-20" : "w-64"}
         ${mobileOpen ? "left-0" : "-left-full"}
         md:left-0`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-blue-800/50">
           {!collapsed && (
             <div className="flex flex-col">
-                <span className="font-black text-xl tracking-tighter uppercase italic">
+                <span className="font-black text-xl tracking-tighter uppercase italic leading-none">
                     LUCIFER<span className="text-blue-400">.</span>
                 </span>
-                <span className="text-[10px] text-blue-300 font-bold uppercase tracking-widest leading-none">
-                    {userRole === "SUPERADMIN" ? "Super Admin" : "Administrator"}
+                <span className="text-[9px] text-blue-300 font-black uppercase tracking-[0.2em] mt-1">
+                    {isSuperAdmin ? "Root Access" : "Admin Node"}
                 </span>
             </div>
           )}
-
-          <button
-            className="p-1 hover:bg-blue-800 rounded transition-colors hidden md:block"
-            onClick={() => setCollapsed(!collapsed)}
-          >
+          <button className="p-1 hover:bg-blue-800 rounded transition-colors hidden md:block" onClick={() => setCollapsed(!collapsed)}>
             <MenuIcon size={20} />
-          </button>
-          <button className="md:hidden" onClick={() => setMobileOpen(false)}>
-            <X size={20} />
           </button>
         </div>
 
-        {/* Menu Items */}
-        <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-          {menu.map((item: MenuItem) => {
-            // Role-based filtering
+        <nav className="flex-1 overflow-y-auto p-4 space-y-1.5 custom-scrollbar">
+          {menu.map((item) => {
             if (item.superAdminOnly && !isSuperAdmin) return null
-
             const active = pathname === item.href
+            
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold transition-all
+                prefetch={true} // 🟢 FIX: Prefetches the page in background for speed
+                className={`flex items-center gap-3 rounded-xl px-3 py-3 text-xs font-black uppercase tracking-tight transition-all
                 ${active 
-                  ? "bg-blue-800 text-white shadow-lg shadow-black/20" 
-                  : "text-blue-100 hover:bg-blue-800/50 hover:text-white"
+                  ? "bg-white text-blue-950 shadow-xl" 
+                  : "text-blue-100 hover:bg-blue-800 hover:translate-x-1"
                 }`}
                 onClick={() => setMobileOpen(false)}
               >
-                <span className={`${active ? "text-blue-300" : "text-blue-400"}`}>
+                <span className={`${active ? "text-red-600" : "text-blue-400"}`}>
                   {item.icon}
                 </span>
                 {!collapsed && <span>{item.label}</span>}
@@ -132,27 +111,28 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* User Footer Section */}
-        <div className="p-4 border-t border-blue-800/50 bg-blue-950/30">
+        <div className="p-4 border-t border-blue-800/50 bg-blue-950/40">
           {!collapsed && (
-            <div className="flex items-center gap-3 px-2 py-3 mb-2">
-              <div className="h-9 w-9 rounded-full bg-blue-500 border-2 border-blue-400 flex items-center justify-center font-black text-xs shadow-md">
+            <div className="flex items-center gap-3 px-2 py-3 mb-2 bg-blue-900/50 rounded-2xl border border-white/5">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center font-black text-xs text-white shadow-lg">
                 {userName[0].toUpperCase()}
               </div>
               <div className="flex flex-col overflow-hidden">
-                <span className="text-xs font-bold truncate leading-none">{userName}</span>
-                <span className="text-[9px] text-blue-400 uppercase font-black tracking-widest mt-1">Status: Online</span>
+                <span className="text-[10px] font-black uppercase italic truncate">{userName}</span>
+                <div className="flex items-center gap-1">
+                    <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[8px] text-blue-400 uppercase font-black tracking-widest">Active</span>
+                </div>
               </div>
             </div>
           )}
 
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className={`flex items-center gap-3 w-full rounded-lg px-3 py-2 text-sm font-bold transition-colors
-            text-red-300 hover:bg-red-600 hover:text-white`}
+            className="flex items-center gap-3 w-full rounded-xl px-3 py-2.5 text-[10px] font-black uppercase italic text-red-400 hover:bg-red-600 hover:text-white transition-all"
           >
-            <LogOut size={20} />
-            {!collapsed && <span>Log Out</span>}
+            <LogOut size={18} />
+            {!collapsed && <span>Terminate Session</span>}
           </button>
         </div>
       </aside>
