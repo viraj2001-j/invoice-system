@@ -3,7 +3,7 @@ import PaymentsPage from "./PaymentsPage";
 import Sidebar from "@/components/sidebar";
 
 export default async function Page() {
-    <Sidebar/>
+    // <Sidebar/>
   const invoices = await prisma.invoice.findMany({
     // 🟢 Sort Invoices by newest created first
     orderBy: {

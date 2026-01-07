@@ -16,7 +16,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
+      {/* <Sidebar /> */}
       
       <main className="flex-1 overflow-y-auto">
         {/* Changed max-w-5xl to w-full and added more padding for the "Wide" look */}
