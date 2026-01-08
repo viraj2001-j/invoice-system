@@ -78,6 +78,8 @@ export default function PaymentsPage({ invoices = [] }: { invoices: any[] }) {
     <div className="flex min-h-screen bg-slate-50">
       {/* <Sidebar /> */}
 
+      <h1>puka sududa</h1>
+
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0">
         <div className="p-8 space-y-8">
           
