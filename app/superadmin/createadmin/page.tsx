@@ -7,7 +7,17 @@ import AdminTable from "@/app/superadmin/createadmin/AdminTable";
 import AdminModal from "@/app/superadmin/createadmin/AdminModal";
 import { Button } from "@/components/ui/button";
 import { Plus, UserPlus } from "lucide-react";
+import { useSession } from "next-auth/react"
+  const { data: session, status } = useSession()
+import router from "next/router";
 
+  useEffect(() => {
+    if (status === "loading") return
+    if (status === "unauthenticated" || session?.user?.role !== "SUPERADMIN") {
+      router.push("/login")
+    }
+  }, [status, session, router])
+  
 export default function AdminManagementPage() {
   const [admins, setAdmins] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
