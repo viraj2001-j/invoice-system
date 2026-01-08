@@ -57,14 +57,58 @@ import Login from "@/app/login/page";
 
 // export default page
 
+// import React from 'react'
+
+// const page = () => {
+//   return (
+//     <div>
+//      <Login/>
+    
+      
+//     </div>
+//   )
+// }
+
+// export default page
+
+
+// import PaymentsPage from "./PaymentsPage";
+// import Sidebar from "@/components/sidebar";
+
+// export default async function Page() {
+//     <Sidebar/>
+//   const invoices = await prisma.invoice.findMany({
+//     // 🟢 Sort Invoices by newest created first
+//     orderBy: {
+//       createdAt: 'desc'
+//     },
+//     include: {
+//       client: true,
+//       // 🟢 Sort the nested payments so the latest payment shows first in the list
+//       payments: {
+//         orderBy: {
+//           paymentDate: 'desc'
+//         }
+//       },
+//       // Fallback signature from the user who created it
+//       createdBy: {
+//         select: {
+//           signature: true
+//         }
+//       }
+//     },
+//   });
+
+//   return <PaymentsPage invoices={invoices} />;
+// }
+
+
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-     <Login/>
-    
-      
+      <Login/>
     </div>
   )
 }
