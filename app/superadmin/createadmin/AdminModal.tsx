@@ -56,7 +56,7 @@ const res = await fetch("/api/signup", { // 🟢 Ensure this matches your route.
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-slate-900 border-white/10 text-white rounded-[2rem] max-w-sm">
+      <DialogContent className="bg-slate-900 border-white/10 text-white rounded-[2rem] max-w-[95vw] sm:max-w-sm overflow-y-auto max-h-[90vh]">
         <DialogHeader className="items-center">
           <div className="bg-blue-600/20 p-3 rounded-2xl mb-2">
             <ShieldCheck className="text-blue-500" size={24} />
