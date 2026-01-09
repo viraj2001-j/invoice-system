@@ -2,6 +2,7 @@ import Sidebar from "@/components/sidebar"; // Adjust path to your Sidebar file
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import Footer from "@/components/Footer";
 
 export default async function DashboardLayout({
   children,
@@ -28,6 +29,7 @@ export default async function DashboardLayout({
           {children}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

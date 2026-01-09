@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { z } from "zod"
-import { FileText, Lock, User, Loader2, AlertCircle, ArrowRight } from "lucide-react"
+import { FileText, Lock, User, Loader2, AlertCircle, ArrowRight, FlaskConical } from "lucide-react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -218,6 +218,16 @@ export default function LoginPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </>
                 )}
+              </Button>
+
+<Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push("/test-invoice")}
+                className="w-full h-12 border-2 border-slate-100 hover:bg-slate-50 text-slate-600 font-semibold transition-all flex items-center justify-center gap-2"
+              >
+                <FlaskConical className="w-5 h-5 text-blue-600" />
+                Test Invoice Mode
               </Button>
             </form>
 
