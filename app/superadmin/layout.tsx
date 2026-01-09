@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer"
 import { Providers } from "@/components/Providers"
 import Sidebar from "@/components/sidebar"
 import { ReactNode } from "react"
@@ -14,6 +15,7 @@ export default function SuperAdminLayout({
       <main className="flex-1 bg-gray-100 min-h-screen p-6 pt-20 md:pt-6">
         <Providers>
         {children}
+        <Footer/>
       </Providers>
       </main>
     </div>
