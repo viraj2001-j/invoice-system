@@ -35,34 +35,26 @@ export async function PATCH(
   }
 }
 
-// 🟢 DELETE: Remove a client node
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> } // 1. Update type to Promise
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    // 2. Await the params to unwrap the ID
     const { id: rawId } = await params;
     const id = parseInt(rawId);
 
-    // Check if client has existing invoices to prevent database errors
-    const clientInvoices = await prisma.invoice.count({ where: { clientId: id } });
-    if (clientInvoices > 0) {
-      return NextResponse.json(
-        { error: "Cannot delete client with existing invoices" },
-        { status: 400 }
-      );
-    }
-
+    // 🟢 OPTION A: Delete all associated records first (Transactions)
+    // Note: You must delete Invoices -> InvoiceItems -> Payments linked to this client
     await prisma.client.delete({
       where: { id },
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Delete operation failed" }, { status: 500 });
   }
 }

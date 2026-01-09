@@ -36,7 +36,7 @@ const menu: MenuItem[] = [
   { label: "Signature", href: "/dashboard/invoices/addsignature", icon: <Fingerprint size={20} />, superAdminOnly: true },
   { label: "Payment(CRUD)", href: "/dashboard/invoices/payment", icon: <CreditCard size={20} /> },
   { label: "Admin Settings", href: "/superadmin/createadmin", icon: <ShieldCheck size={20} />, superAdminOnly: true },
-  { label: "Send Message", href: "/settings", icon: <MessageSquareShare size={20} /> },
+  { label: "Send Message", href: "/dashboard/invoices/sendmessage", icon: <MessageSquareShare size={20} /> },
 ]
 
 export default function Sidebar() {
@@ -93,7 +93,7 @@ export default function Sidebar() {
               LUCIFER<span className="text-blue-400">.</span>
             </span>
             <span className="text-[9px] text-blue-300 font-black uppercase tracking-[0.2em] mt-1">
-              {isSuperAdmin ? "Root Access" : "Admin Node"}
+              {isSuperAdmin ? "Superadmin Access" : "Admin Access"}
             </span>
           </div>
 

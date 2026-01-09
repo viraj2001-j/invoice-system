@@ -51,6 +51,9 @@ model Client {
 
   companyId Int?
   // 🔗 Add this: A client can have one optional company
+
+  messages  Message[] // Add this line
+  
   company   Company? 
   invoices  Invoice[]
   createdAt DateTime @default(now())
@@ -153,4 +156,15 @@ model Payment {
 
   invoiceId   Int
   invoice     Invoice  @relation("InvoicePayments", fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  subject   String
+  body      String   @db.Text
+  sentAt    DateTime @default(now())
+  
+  // Relation to Client
+  clientId  Int
+  client    Client   @relation(fields: [clientId], references: [id])
 }
