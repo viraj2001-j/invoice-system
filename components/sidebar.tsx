@@ -89,8 +89,8 @@ export default function Sidebar() {
         {/* HEADER */}
         <div className="flex items-center justify-between p-6 border-b border-blue-800/50">
           <div className={`flex flex-col ${collapsed ? "md:hidden" : "block"}`}>
-            <span className="font-black text-xl tracking-tighter uppercase italic leading-none">
-              LUCIFER<span className="text-blue-400">.</span>
+            <span className="font-black text-xl tracking-tighter uppercase  leading-none">
+              VRJ<span className="text-blue-400">.</span>
             </span>
             <span className="text-[9px] text-blue-300 font-black uppercase tracking-[0.2em] mt-1">
               {isSuperAdmin ? "Superadmin Access" : "Admin Access"}
