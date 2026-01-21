@@ -55,7 +55,7 @@ export default function Sidebar() {
       <div className="md:hidden fixed top-0 left-0 right-0 z-[60] bg-blue-950 text-white flex items-center justify-between p-4 shadow-md">
         <div className="flex flex-col">
           <span className="font-black text-sm tracking-tighter uppercase italic leading-none">
-            LUCIFER<span className="text-blue-400">.</span>
+            VRJ<span className="text-blue-400">.</span>
           </span>
           <span className="text-[8px] text-blue-300 font-bold uppercase tracking-widest">
             {userRole}
