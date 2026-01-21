@@ -48,8 +48,8 @@ export default function ClientsPage() {
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-black italic uppercase tracking-tighter text-slate-900">
-              Client Directory<span className="text-blue-600">.</span>
+            <h1 className="text-3xl font-black  uppercase tracking-tighter text-slate-900">
+              Clients
             </h1>
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Database Management</p>
           </div>
@@ -86,7 +86,7 @@ export default function ClientsPage() {
             <tbody className="divide-y divide-slate-50">
               {filteredClients.map((client) => (
                 <tr key={client.id} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="px-8 py-5 font-bold text-slate-900 italic tracking-tight">{client.name}</td>
+                  <td className="px-8 py-5 font-bold text-slate-900 tracking-tight">{client.name}</td>
                   <td className="px-8 py-5 text-xs font-black uppercase text-blue-600 italic">
                     {client.company?.name || "Independent"}
                   </td>

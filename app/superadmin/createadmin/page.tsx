@@ -62,8 +62,8 @@ export default function AdminManagementPage() {
     <div className="p-8 bg-slate-50 min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-black italic uppercase tracking-tighter text-slate-900">
-            Node Management<span className="text-red-600">.</span>
+          <h1 className="text-3xl font-black  uppercase tracking-tighter text-slate-900">
+            Admin Management
           </h1>
           <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">Manage System Access Levels</p>
         </div>

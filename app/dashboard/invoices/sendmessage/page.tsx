@@ -89,8 +89,8 @@ export default function MessagePage() {
         
         {/* HEADER */}
         <div>
-          <h1 className="text-3xl font-black italic uppercase tracking-tighter text-slate-900">
-            Broadcaster<span className="text-blue-600">.</span>
+          <h1 className="text-3xl font-black  uppercase tracking-tighter text-slate-900">
+            Send Message
           </h1>
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Client Message Node</p>
         </div>

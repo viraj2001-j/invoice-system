@@ -154,7 +154,12 @@ export default function CreateInvoiceUI({ user }: CreateInvoiceUIProps) {
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0 scroll-smooth">
+      
 <div className="space-y-6 w-full mx-auto py-8 px-4 md:px-12">
+          <div>
+          <h1 className="text-3xl font-black text-slate-800 tracking-tight">Create Invoice Dashboard</h1>
+          <p className="text-slate-500 text-sm font-medium">Manage and monitor your business transactions</p>
+        </div>
           
           {/* HEADER */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-xl shadow-sm border border-slate-200 gap-4">

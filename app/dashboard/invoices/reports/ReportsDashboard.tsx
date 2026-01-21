@@ -59,8 +59,8 @@ export default function ReportsDashboard({ initialData, clients }: Props) {
               <FileText className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-black italic tracking-tighter text-slate-900 uppercase leading-none">
-                LUCIFER<span className="text-red-600">.</span> ANALYTICS
+              <h1 className="text-2xl font-black  tracking-tighter text-slate-900 uppercase leading-none">
+                ANALYTICS
               </h1>
               <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Enterprise Command Center</p>
             </div>

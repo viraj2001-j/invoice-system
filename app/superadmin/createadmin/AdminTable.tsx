@@ -45,7 +45,7 @@ export default function AdminTable({ admins, onEdit, refresh }: any) {
                 </div>
               </td>
               <td className="px-8 py-5">
-                <span className={`text-[10px] font-black uppercase italic ${admin.role === 'SUPERADMIN' ? 'text-red-600' : 'text-blue-600'}`}>
+                <span className={`text-[10px] font-black uppercase  ${admin.role === 'SUPERADMIN' ? 'text-red-600' : 'text-blue-600'}`}>
                   {admin.role}
                 </span>
               </td>
